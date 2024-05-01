@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.md h1 {
+  @apply text-xl font-semibold mt-3 mb-2;
+}
+.md h2 {
+  @apply text-lg font-semibold mt-2 mb-1;
+}
+.md h3 {
+  @apply font-semibold mt-1.5;
+}
+
+.md ul {
+  @apply list-disc list-inside pl-2 my-1;
+}
+
+.md ol {
+  @apply list-decimal list-inside pl-2 my-1;
+}
+
+
+button {
+  @apply bg-blue-500 text-white py-1.5 px-2.5 rounded-sm;
+}
+
+body {
+  /* @apply bg-gray-200 text-white; */
+}
