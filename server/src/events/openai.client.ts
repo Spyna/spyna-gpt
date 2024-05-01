@@ -2,7 +2,7 @@ import OpenAI from "openai";
 import { EmbeddingCreateParams } from "openai/resources";
 import { Hit } from "./qdrant.client";
 
-export const OPENAI_EMBEDDING_DIMENSIONS = 3072;
+export const OPENAI_EMBEDDING_DIMENSIONS = 1536;
 
 export class OpenAiClient {
   openai: OpenAI;
@@ -29,7 +29,7 @@ export class OpenAiClient {
 
   async chat(userQuestion: string, hits: Hit[]): Promise<string> {
     const aiContext = createSystemContext();
-    console.log("AI CONTEXT", hits);
+    // console.log("AI CONTEXT", hits);
 
     const chatCompletion = await this.openai.chat.completions.create({
       messages: [
@@ -46,7 +46,7 @@ export class OpenAiClient {
       temperature: 0.5,
     });
 
-    console.log("OPENAI RESPONSE", JSON.stringify(chatCompletion, null, 2));
+    // console.log("OPENAI RESPONSE", JSON.stringify(chatCompletion, null, 2));
     return chatCompletion.choices[0].message.content;
   }
 }

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { socket } from "./socket";
+import { socket } from "../../service/socket";
 import { ConnectionState } from "./components/ConnectionState";
 import { ConnectionManager } from "./components/ConnectionManager";
-import { Events } from "./components/Events";
-import { ChatForm } from "./components/ChatForm";
+import { Events } from "../Chat/Events";
+import { ChatForm } from "../Chat/ChatForm";
 import Emebedder from "../Embedder/Embedder";
 import { ChatResponse, chatService } from "../../service/ChatService";
 import { notificationService } from "../../service/NotificationService";
@@ -25,10 +25,7 @@ export default function SocketApp() {
     }
 
     function onEmbeddingFinished(value: string) {
-      notificationService.addNotification(
-        "Embedding finished",
-        `Embedding finished for ${value}`
-      );
+      notificationService.addNotification("Embedding", value);
     }
 
     socket.on("connect", onConnect);

@@ -6,6 +6,7 @@ import { UploadController } from "./upload.controller";
 import { EmbedderService } from "src/embedder/embedder.service";
 import { EventsGateway } from "src/events/events.gateway";
 import { EventsService } from "src/events/events.service";
+import { ScrapingService } from "src/embedder/scraping.service";
 
 @Module({
   controllers: [UploadController],
@@ -16,6 +17,7 @@ import { EventsService } from "src/events/events.service";
     QdrantDb,
     EventsGateway,
     EventsService,
+    ScrapingService
   ],
 })
 export class UploadModule {}

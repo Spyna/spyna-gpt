@@ -20,11 +20,27 @@
   @apply list-decimal list-inside pl-2 my-1;
 }
 
+.md blockquote {
+  @apply border-l-4 border-gray-400 pl-2 my-1;
+}
+
+.md ol li {
+  @apply mt-4;
+
+}
+.md ol ul li {
+  @apply mt-1;
+
+}
+
+.md ol li p{
+  @apply inline-block;
+}
 
 button {
-  @apply bg-blue-500 text-white py-1.5 px-2.5 rounded-sm;
+  @apply bg-blue-500 text-white py-1.5 px-2.5 rounded-sm disabled:bg-blue-300 disabled:cursor-not-allowed disabled:hover:bg-blue-300;
 }
 
 body {
-  /* @apply bg-gray-200 text-white; */
+  /* @apply bg-gray-700 text-white; */
 }

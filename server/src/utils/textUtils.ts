@@ -7,6 +7,8 @@ export async function splitText(
   chunkSize = DEFAULT_CHUNCK_SIZE,
   separators = SEPARATORS,
 ): Promise<string[]> {
+  text = cleanString(text);
+
   const finalChunks = [];
 
   // Get appropriate separator to use
@@ -113,4 +115,14 @@ which is longer than the specified ${DEFAULT_CHUNCK_SIZE}`,
 function joinDocs(docs: string[], separator: string) {
   const text = docs.join(separator).trim();
   return text === "" ? null : text;
+}
+
+export function cleanString(text: string) {
+  text = text.replace(/\\/g, "");
+  text = text.replace(/#/g, " ");
+  text = text.replace(/\. \./g, ".");
+  text = text.replace(/\s\s+/g, " ");
+  text = text.replace(/(\r\n|\n|\r)/gm, " ");
+
+  return text.trim();
 }

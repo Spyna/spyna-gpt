@@ -77,13 +77,12 @@ export class QdrantDb {
       limit: limit,
       vector: query,
       with_payload: true,
-      score_threshold: 0.4,
+      score_threshold: 0.5,
     });
 
     return queryResponse.map((match) => {
       const pageContent = match.payload.text as string;
       delete match.payload.text;
-      console.log("MATCH", match.payload);
       return {
         pageContent,
         source: match.payload.source as string,

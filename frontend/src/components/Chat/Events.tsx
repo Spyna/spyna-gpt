@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import ChatMessage from "./ChatMessage";
 import { observer } from "mobx-react-lite";
-import { chatService } from "../../../service/ChatService";
+import { chatService } from "../../service/ChatService";
 
 export const Events = observer(function Events() {
   const messageContainer = useRef<HTMLDivElement>(null);

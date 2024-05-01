@@ -1,7 +1,6 @@
 import React from "react";
-import { socket } from "../socket";
 import { observer } from "mobx-react-lite";
-import { chatService } from "../../../service/ChatService";
+import { chatService } from "../../service/ChatService";
 
 export const ChatForm = observer(function ChatForm() {
   function onFormSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -13,7 +12,6 @@ export const ChatForm = observer(function ChatForm() {
       return;
     }
     chatService.ask(message);
-    socket.timeout(5000).emit("events", { test: message });
   }
 
   return (

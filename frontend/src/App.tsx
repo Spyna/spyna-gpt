@@ -1,5 +1,5 @@
-import Notifications from "./component/ui/Notification/Notifications";
-import SocketApp from "./component/Socket/SocketApp";
+import Notifications from "./components/ui/Notification/Notifications";
+import SocketApp from "./components/Socket/SocketApp";
 
 function App() {
   return (

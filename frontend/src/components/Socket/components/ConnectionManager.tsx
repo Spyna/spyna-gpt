@@ -1,4 +1,4 @@
-import { socket } from "../socket";
+import { socket } from "../../../service/socket";
 export function ConnectionManager() {
   function connect() {
     socket.connect();

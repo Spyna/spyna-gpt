@@ -1,4 +1,8 @@
-import { CheckCircleIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import {
+  CheckCircleIcon as SuccessIcon,
+  ExclamationTriangleIcon as ErrorIcon,
+  XMarkIcon,
+} from "@heroicons/react/24/outline";
 import { observer } from "mobx-react-lite";
 import { notificationService } from "../../../service/NotificationService";
 
@@ -19,7 +23,11 @@ const Notifications = observer(function Notifications() {
           className="flex items-start my-4 shadow-xl border border-gray-300 p-4 relative rounded-lg min-w-80 max-w-[450px] bg-gray-100"
         >
           <div className="flex items-center">
-            <CheckCircleIcon className="w-7 h-7 text-green-500" />
+            {notification.type === "error" ? (
+              <ErrorIcon className="w-7 h-7 text-red-500" />
+            ) : (
+              <SuccessIcon className="w-7 h-7 text-green-500" />
+            )}
           </div>
           <div className="p-2 dark:text-green-200">
             <p className="font-semibold">{notification.title}</p>

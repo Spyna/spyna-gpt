@@ -1,4 +1,4 @@
-#Spina GPT
+# Spina GPT
 
 This project is the classic chat with an AI, which allows uploading pdfs, urls and text files, to train. 
 The front end is done with vite.js and the backend with nestjs and fastify.

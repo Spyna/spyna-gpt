@@ -1,9 +1,12 @@
 import { makeAutoObservable } from "mobx";
 
+export type NotificationType = "success" | "error";
+
 export interface Notification {
   id: string;
   message: string;
   title: string;
+  type: NotificationType;
 }
 
 class NotificationService {
@@ -12,12 +15,16 @@ class NotificationService {
     makeAutoObservable(this);
   }
 
-  addNotification(title: string, message: string) {
+  addNotification(
+    title: string,
+    message: string,
+    type: NotificationType = "success"
+  ) {
     const id = Math.random().toString(36).substring(2, 9);
-    this.notifications.push({ message, title, id });
+    this.notifications.push({ message, title, id, type });
     setTimeout(() => {
       this.removeNotification(id);
-    }, 3500);
+    }, 7500);
   }
 
   removeNotification(id: string) {

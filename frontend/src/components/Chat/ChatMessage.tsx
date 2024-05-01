@@ -3,9 +3,9 @@ import {
   RocketLaunchIcon,
   UserCircleIcon,
 } from "@heroicons/react/24/outline";
-import { Loader } from "../../ui/Loader/Loader";
+import { Loader } from "../ui/Loader/Loader";
 import MarkdownMessage from "./MarkdownMessage";
-import { ChatResponse } from "../../../service/ChatService";
+import { ChatResponse } from "../../service/ChatService";
 import { useState } from "react";
 
 interface Props {
@@ -76,6 +76,7 @@ function Sources({
       {showSources && (
         <div className="shadow-xl border border-gray-800 absolute left-0 top-0 -translate-y-full p-3 bg-gray-100 rounded">
           <h3>Sources:</h3>
+          {sources.length === 0 && <p className="text-sm italic">No data found in your embeddings</p>}
           <ul className="list-disc list-inside">
             {sources.map((source, index) => (
               <li key={`message-${messageId}-source-${index}`}>{source}</li>

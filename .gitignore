@@ -1,3 +1,4 @@
 embed-cache
 redis-data
 /qdrant-data
+/.idea

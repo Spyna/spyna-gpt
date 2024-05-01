@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { QdrantDb } from "./qdrant.client";
 import { OpenAiClient } from "./openai.client";
+import { ChatQuestion } from "src/model/ChatQuestion";
 
 export interface ChatResponse {
   content: string;
@@ -14,14 +15,14 @@ export class EventsService {
     private readonly openai: OpenAiClient,
   ) {}
 
-  async onchatMessage(data: any): Promise<ChatResponse> {
-    const query = data.test;
+  async onchatMessage(data: ChatQuestion): Promise<ChatResponse> {
+    const query = data.query;
     const qdrantResults = await this.qdrant.similaritySearch(
-      await this.openai.embed(query, "text-embedding-3-large"),
-      5,
+      await this.openai.embed(query, "text-embedding-3-small"),
+      7,
     );
     console.log(
-      "QDRANT RESULTS",
+      "qdrant results scores",
       qdrantResults.map((r) => r.score),
     );
 
