@@ -3,7 +3,7 @@ import ChatMessage from "./ChatMessage";
 import { observer } from "mobx-react-lite";
 import { chatService } from "../../service/ChatService";
 
-export const Events = observer(function Events() {
+export const Events = observer(function Messages() {
   const messageContainer = useRef<HTMLDivElement>(null);
   useEffect(() => {
     messageContainer.current?.scrollIntoView({
@@ -16,8 +16,7 @@ export const Events = observer(function Events() {
     <div className="flex-1 overflow-hidden">
       <div className="h-full">
         <div
-          className="flex flex-col text-sm pb-20"
-          id="pippo"
+          className="flex flex-col text-sm pb-20 max-w-3xl mx-auto"
           ref={messageContainer}
         >
           {chatService.messages.map((message) => (
@@ -28,7 +27,7 @@ export const Events = observer(function Events() {
               id={message.id}
             />
           ))}
-          {chatService.loading && <ChatMessage from="ai" loading />}
+          {chatService.loading && <ChatMessage id="-1" from="ai" loading />}
         </div>
       </div>
     </div>

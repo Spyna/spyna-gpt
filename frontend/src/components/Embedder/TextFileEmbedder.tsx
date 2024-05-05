@@ -4,7 +4,7 @@ import { notificationService } from "../../service/NotificationService";
 import { Dialog } from "../ui/Dialog/Diaolg";
 import EmbedButton from "./EmbedButton";
 
-const API_URL = "http://localhost:3000/upload/text";
+const API_URL = "http://localhost:3000/embed/text";
 
 export default function TextFileEmbedder() {
   const [open, setOpen] = useState(false);

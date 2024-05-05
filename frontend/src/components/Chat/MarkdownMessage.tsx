@@ -9,31 +9,31 @@ interface Props {
 
 export default function MarkdownMessage({ message }: Readonly<Props>) {
   const MarkdownComponents: object = {
-    // code({
-    //   inline,
-    //   className,
-    //   children,
-    //   ...props
-    // }: {
-    //   inline?: boolean;
-    //   className?: string;
-    //   children?: string;
-    // }) {
-    //   const match = /language-(\w+)/.exec(className ?? "");
+    code({
+      inline,
+      className,
+      children,
+      ...props
+    }: {
+      inline?: boolean;
+      className?: string;
+      children?: string;
+    }) {
+      const match = /language-(\w+)/.exec(className ?? "");
 
-    //   return !inline && match ? (
-    //     <SyntaxHighlighter
-    //       style={dracula}
-    //       PreTag="div"
-    //       language={match[1]}
-    //       {...props}
-    //     >
-    //       {String(children).replace(/\n$/, "")}
-    //     </SyntaxHighlighter>
-    //   ) : (
-    //     <code className={className} {...props} />
-    //   );
-    // },
+      return !inline && match ? (
+        <SyntaxHighlighter
+          style={dracula}
+          PreTag="div"
+          language={match[1]}
+          {...props}
+        >
+          {String(children).replace(/\n$/, "")}
+        </SyntaxHighlighter>
+      ) : (
+        <code className={className} {...props} />
+      );
+    },
   };
   return (
     <ReactMarkdown

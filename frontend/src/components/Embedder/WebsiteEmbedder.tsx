@@ -5,7 +5,7 @@ import { Dialog } from "../ui/Dialog/Diaolg";
 import EmbedButton from "./EmbedButton";
 import { z } from "zod";
 
-const API_URL = "http://localhost:3000/upload/url";
+const API_URL = "http://localhost:3000/embed/url";
 
 const formValidation = z.string().url();
 

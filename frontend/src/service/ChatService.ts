@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import { socket } from "./socket";
+import { Events, webSocketService } from "./WebSocketService";
 
 export type From = "user" | "ai";
 
@@ -39,7 +39,7 @@ class ChatService {
 
   ask(question: string) {
     this.loading = true;
-    socket.timeout(5000).emit("events", { query: question });
+    webSocketService.emit(Events.events, { query: question });
     this.messages.push({
       message: question,
       from: "user",

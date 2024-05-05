@@ -31,7 +31,7 @@ const Notifications = observer(function Notifications() {
           </div>
           <div className="p-2 dark:text-green-200">
             <p className="font-semibold">{notification.title}</p>
-            <p className="mt-2">{notification.message}</p>
+            <p className="mt-2 break-words">{notification.message}</p>
           </div>
           <div className="w-10">
             <button

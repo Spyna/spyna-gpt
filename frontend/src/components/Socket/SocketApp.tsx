@@ -1,23 +1,18 @@
-import React, { useState, useEffect } from "react";
-import { socket } from "../../service/socket";
-import { ConnectionState } from "./components/ConnectionState";
-import { ConnectionManager } from "./components/ConnectionManager";
-import { Events } from "../Chat/Events";
-import { ChatForm } from "../Chat/ChatForm";
-import Emebedder from "../Embedder/Embedder";
+import { useEffect } from "react";
+import { observer } from "mobx-react-lite";
+import { socket } from "../../service/socketClient";
 import { ChatResponse, chatService } from "../../service/ChatService";
 import { notificationService } from "../../service/NotificationService";
+import { webSocketService } from "../../service/WebSocketService";
 
-export default function SocketApp() {
-  const [isConnected, setIsConnected] = useState(socket.connected);
-
+const SocketApp = observer(function () {
   useEffect(() => {
     function onConnect() {
-      setIsConnected(true);
+      webSocketService.setConnected(true);
     }
 
     function onDisconnect() {
-      setIsConnected(false);
+      webSocketService.setConnected(false);
     }
 
     function onChatMessageReceived(value: ChatResponse) {
@@ -39,15 +34,7 @@ export default function SocketApp() {
       socket.off("events", onChatMessageReceived);
     };
   }, []);
+  return null;
+});
 
-  return (
-    <div className="h-full">
-      <div className="flex h-full flex-col"></div>
-      <ConnectionState isConnected={isConnected} />
-      <ConnectionManager />
-      <Events />
-      <ChatForm />
-      <Emebedder />
-    </div>
-  );
-}
+export default SocketApp;

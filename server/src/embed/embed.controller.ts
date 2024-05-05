@@ -16,8 +16,8 @@ class UrlEmbedRequest {
   url: string;
 }
 
-@Controller("/upload")
-export class UploadController {
+@Controller("/embed")
+export class EmbedController {
   constructor(
     private readonly embedderService: EmbedderService,
     private readonly scraper: ScrapingService,
@@ -50,6 +50,7 @@ export class UploadController {
   @Post("/url")
   async embedWebsite(@Body() request: UrlEmbedRequest): Promise<void> {
     const { text, link } = await this.scraper.scrape(request.url);
+    console.log("Text found", text);
     this.embedderService.processText(text, request.url);
 
     console.log("Links found", link);

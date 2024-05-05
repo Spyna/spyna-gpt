@@ -2,7 +2,7 @@ import { Module } from "@nestjs/common";
 import { ServeStaticModule } from "@nestjs/serve-static";
 import { join } from "path";
 import { ConfigModule } from "@nestjs/config";
-import { UploadModule } from "./upload/upload.module";
+import { UploadModule } from "./embed/embed.module";
 
 @Module({
   imports: [

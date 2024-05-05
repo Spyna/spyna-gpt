@@ -5,7 +5,7 @@ import { notificationService } from "../../service/NotificationService";
 import { Dialog } from "../ui/Dialog/Diaolg";
 import EmbedButton from "./EmbedButton";
 
-const API_URL = "http://localhost:3000/upload/pdf";
+const API_URL = "http://localhost:3000/embed/pdf";
 
 export default function PdfEmbedder() {
   const [open, setOpen] = useState(false);

@@ -24,7 +24,6 @@ export class QdrantDb {
     const collectionExists = await this.client.collectionExists(
       this.clusterName,
     );
-    console.log("Collection exists", collectionExists);
     if (collectionExists.exists) {
       return;
     }
@@ -35,7 +34,6 @@ export class QdrantDb {
         distance: "Cosine",
       },
     });
-    console.log("Collection created");
 
     await this.client.createPayloadIndex(this.clusterName, {
       wait: true,
@@ -77,7 +75,7 @@ export class QdrantDb {
       limit: limit,
       vector: query,
       with_payload: true,
-      score_threshold: 0.5,
+      score_threshold: 0.3,
     });
 
     return queryResponse.map((match) => {

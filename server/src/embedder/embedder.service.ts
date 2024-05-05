@@ -30,30 +30,33 @@ export class EmbedderService {
 
   async embed(chunks: string[], fileName: string) {
     await this.qdrantDb.init({ dimensions: OPENAI_EMBEDDING_DIMENSIONS });
-    const toIndex = [];
+    let toIndex = [];
 
     for (let index = 0; index < chunks.length; index++) {
       const chunk = chunks[index];
       console.log(
-        "Processing chunk of file",
+        "Processing chunk of: ",
         `[${fileName}]`,
         index + 1 + "/" + chunks.length,
       );
-      if (chunks.length > 100 && index % 100 === 0 && index > 0) {
+      if (chunks.length > 20 && index % 20 === 0 && index > 0) {
+        await this.qdrantDb.insertChunks(toIndex, {
+          source: fileName,
+        });
         this.socketGateway.emit(
           "embedding",
-          `${fileName} embedding progress: ${index + 1}/${chunks.length} chunks processed`,
+          `${fileName} embedding progress: ${index}/${chunks.length} chunks processed`,
         );
+        toIndex = [];
       }
 
       const embed = await this.openai.embed(chunk, "text-embedding-3-small");
-
       toIndex.push({ vector: embed, chunk: index, text: chunk });
     }
     await this.qdrantDb.insertChunks(toIndex, {
       source: fileName,
     });
-    console.log("File embedded succesfully", fileName);
+    console.log("embedded succesfully", fileName);
     this.socketGateway.emit("embedding", `${fileName} succesfully embedded`);
   }
 }

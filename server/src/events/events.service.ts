@@ -23,7 +23,15 @@ export class EventsService {
     );
     console.log(
       "qdrant results scores",
-      qdrantResults.map((r) => r.score),
+      qdrantResults.map(
+        (r) =>
+          r.source +
+          ": " +
+          r.score +
+          ": " +
+          r.pageContent.substring(0, 50) +
+          "...",
+      ),
     );
 
     const chatResponse = await this.openai.chat(query, qdrantResults);
