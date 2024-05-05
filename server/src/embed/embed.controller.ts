@@ -4,9 +4,9 @@ import {
   UploadedFiles,
 } from "@blazity/nest-file-fastify";
 import { Body, Controller, Post, UseInterceptors } from "@nestjs/common";
+import { EmbedService } from "./embed.service";
+import { ScrapingService } from "./scraping.service";
 
-import { EmbedderService } from "src/embedder/embedder.service";
-import { ScrapingService } from "src/embedder/scraping.service";
 
 class TextEmbedRequest {
   title: string;
@@ -19,7 +19,7 @@ class UrlEmbedRequest {
 @Controller("/embed")
 export class EmbedController {
   constructor(
-    private readonly embedderService: EmbedderService,
+    private readonly embedderService: EmbedService,
     private readonly scraper: ScrapingService,
   ) {}
 
@@ -50,10 +50,8 @@ export class EmbedController {
   @Post("/url")
   async embedWebsite(@Body() request: UrlEmbedRequest): Promise<void> {
     const { text, link } = await this.scraper.scrape(request.url);
-    console.log("Text found", text);
     this.embedderService.processText(text, request.url);
 
-    console.log("Links found", link);
     for (const path of link) {
       const { text } = await this.scraper.scrape(request.url + path);
       this.embedderService.processText(text, request.url + path);

@@ -9,7 +9,7 @@ import { EventsGateway } from "src/events/events.gateway";
 import { splitText } from "src/utils/textUtils";
 
 @Injectable()
-export class EmbedderService {
+export class EmbedService {
   constructor(
     private readonly pdfService: PdfService,
     private readonly qdrantDb: QdrantDb,
