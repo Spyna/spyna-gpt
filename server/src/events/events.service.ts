@@ -2,9 +2,11 @@ import { Injectable } from "@nestjs/common";
 import { QdrantDb } from "./qdrant.client";
 import { OpenAiClient } from "./openai.client";
 import { ChatQuestion } from "src/model/ChatQuestion";
+import { Stream } from "openai/streaming";
+import OpenAI from "openai";
 
-export interface ChatResponse {
-  content: string;
+interface StreamResponse {
+  stream: Stream<OpenAI.Chat.Completions.ChatCompletionChunk>;
   sources: string[];
 }
 
@@ -15,7 +17,7 @@ export class EventsService {
     private readonly openai: OpenAiClient,
   ) {}
 
-  async onchatMessage(data: ChatQuestion): Promise<ChatResponse> {
+  async onchatMessage(data: ChatQuestion): Promise<StreamResponse> {
     const query = data.query;
     const qdrantResults = await this.qdrant.similaritySearch(
       await this.openai.embed(query, "text-embedding-3-small"),
@@ -34,10 +36,8 @@ export class EventsService {
       ),
     );
 
-    const chatResponse = await this.openai.chat(query, qdrantResults);
     const sources = [...new Set(qdrantResults.map((r) => r.source))];
-
-    return { content: chatResponse, sources };
+    return { stream: await this.openai.chat(query, qdrantResults), sources };
   }
 
   async embed(data: any): Promise<number[]> {

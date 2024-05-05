@@ -5,10 +5,16 @@ import {
   WebSocketServer,
   WsResponse,
 } from "@nestjs/websockets";
-import { Observable } from "rxjs";
+import { from, Observable } from "rxjs";
+import { map } from "rxjs/operators";
 import { Server } from "socket.io";
-import { ChatResponse, EventsService } from "./events.service";
+import { EventsService } from "./events.service";
 import { ChatQuestion } from "src/model/ChatQuestion";
+
+export interface ChatResponse {
+  content: string;
+  sources: string[];
+}
 
 @WebSocketGateway({
   cors: {
@@ -26,11 +32,18 @@ export class EventsGateway {
     @MessageBody() data: ChatQuestion,
   ): Promise<Observable<WsResponse<ChatResponse>>> {
     console.log("Received chat message", data);
-    const chatResponse = await this.eventService.onchatMessage(data);
-    return new Observable<WsResponse<ChatResponse>>((observer) => {
-      observer.next({ event: "events", data: chatResponse });
-      observer.complete();
-    });
+    const response = await this.eventService.onchatMessage(data);
+    return from(response.stream).pipe(
+      map((data) => ({
+        event: "events",
+        data: {
+          id: data.id,
+          finished: data.choices[0]?.finish_reason === "stop",
+          content: data.choices[0]?.delta?.content || "",
+          sources: response.sources,
+        },
+      })),
+    );
   }
 
   emit(eventType: string, data: any) {

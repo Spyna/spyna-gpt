@@ -4,8 +4,10 @@ import { Events, webSocketService } from "./WebSocketService";
 export type From = "user" | "ai";
 
 export interface ChatResponse {
+  finished?: boolean;
   content: string;
   sources: string[];
+  id: string;
 }
 
 export interface ChatMessage {
@@ -31,10 +33,29 @@ class ChatService {
     //   },
     // },
   ];
+  currentMessage: string = "";
+  currentMessageId: string | null = null;
 
   addMessage(message: ChatResponse, from: From) {
-    this.messages.push({ message, from, date: new Date(), id: randomId() });
+    if (this.currentMessageId !== message.id) {
+      this.currentMessageId = message.id;
+      this.currentMessage = "";
+    }
     this.loading = false;
+    this.currentMessage += message.content;
+    if (message.finished) {
+      this.messages.push({
+        message: {
+          content: this.currentMessage,
+          id: message.id,
+          sources: message.sources,
+        },
+        from,
+        date: new Date(),
+        id: message.id,
+      });
+      this.currentMessage = "";
+    }
   }
 
   ask(question: string) {

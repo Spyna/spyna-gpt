@@ -27,6 +27,13 @@ export const Events = observer(function Messages() {
               id={message.id}
             />
           ))}
+          {chatService.currentMessage !== "" && (
+            <ChatMessage
+              id={chatService.currentMessageId!}
+              from="ai"
+              message={chatService.currentMessage}
+            />
+          )}
           {chatService.loading && <ChatMessage id="-1" from="ai" loading />}
         </div>
       </div>

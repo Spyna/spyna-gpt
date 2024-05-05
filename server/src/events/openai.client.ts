@@ -1,6 +1,7 @@
 import OpenAI from "openai";
 import { EmbeddingCreateParams } from "openai/resources";
 import { Hit } from "./qdrant.client";
+import { Stream } from "openai/streaming";
 
 export const OPENAI_EMBEDDING_DIMENSIONS = 1536;
 
@@ -27,27 +28,28 @@ export class OpenAiClient {
     return embedding.data[0].embedding;
   }
 
-  async chat(userQuestion: string, hits: Hit[]): Promise<string> {
+  async chat(
+    userQuestion: string,
+    hits: Hit[],
+  ): Promise<Stream<OpenAI.Chat.Completions.ChatCompletionChunk>> {
     const aiContext = createSystemContext();
-    // console.log("AI CONTEXT", hits);
 
-    const chatCompletion = await this.openai.chat.completions.create({
+    const stream = await this.openai.chat.completions.create({
       messages: [
         { role: "system", content: aiContext },
         {
           role: "assistant",
           content: createAssistantContext(
-            hits.map((hit) => "```\n" + hit.pageContent + "\n```").join("\n"),
+            hits.map((hit) => hit.pageContent).join("\n\n"),
           ),
         },
         { role: "user", content: userQuestion },
       ],
       model: "gpt-3.5-turbo",
-      temperature: 0.5,
+      temperature: 0.4,
+      stream: true,
     });
-
-    // console.log("OPENAI RESPONSE", JSON.stringify(chatCompletion, null, 2));
-    return chatCompletion.choices[0].message.content;
+    return stream;
   }
 }
 
@@ -60,7 +62,7 @@ function createSystemContext() {
 If you don't know the answer, just say that you don't know, don't try to make up an answer. 
 
 Do not use words like context or training data when responding. You can say you may not have all the information but do not say that you are not a reliable source.
-  
+
 If you feel it necessary, divide the text into chapters and make bulleted or numbered lists.
 Respond in markdown.
 `;
